@@ -1,29 +1,9 @@
+# config/packages/security.yaml
 security:
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
-providers:
-     Client:
-     entity: {class:App\Entity\Client  property:emailClient }
-     encoders:
-         App\Entity\Client:
-           algorithm: auto
-           cost: 12
-firewalls:
-
-    login:
-     pattern:  ^/api/login
-            stateless: true
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
             anonymous: true
-            json_login:
-                check_path:               /api/login_check
-                success_handler:          lexik_jwt_authentication.handler.authentication_success
-                failure_handler:          lexik_jwt_authentication.handler.authentication_failure
-           api:
-            pattern:   ^/api
-            stateless: true
-            guard:
-                authenticators:
-                    - lexik_jwt_authentication.jwt_token_authenticator
-        access_control:
-        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
-    
+            lazy: true
